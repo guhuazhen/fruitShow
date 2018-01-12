@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/axios.min.js" ></script>
+		<script type="text/javascript" src="js/jquery-3.1.1.js" ></script>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<style>
+			#app{
+			width: 100%;
+			background: lightgray;
+			}
+			ul{
+				width: 50%;
+				
+			}
+			ul li{
+				list-style: none;
+			}
+			
+			.cart{
+		
+				width: 30px;
+				height: 30px;
+			}
+			
+			ul .hisposition{
+				float: right;
+			}
+			#left{
+				float: left;
+				width: 50%;
+			}
+			#right{
+				float: right;
+				width: 50%;
+			}
+			* {
+				padding: 0px;
+				margin: 0px;
+				list-style: none;
+				font-style: normal;
+				font-family: arial;
+				font-family: Microsoft YaHei, arial;
+			}
+			
+			.twoRankedBox {
+				margin: 6px 8px;
+				overflow: hidden;
+				padding-bottom: 25px;
+			}
+			
+			.twoRankedBox ul {
+				width: 49%;
+				float: left;
+			}
+			
+			.twoRankedBox ul:last-child {
+				margin-left: 2%;
+			}
+			
+			.twoRankedBox ul li {
+				padding: 5px;
+				margin-bottom: 6px;
+				padding-bottom: 8px;
+				background-color: #FFFFFF;
+			}
+			
+			.twoRankedBox ul li p:first-child {
+				padding-top: 0px;
+			}
+			
+			.twoRankedBox ul li p {
+				padding-top: 4px;
+			}
+			.name{
+				font-size: 28px;
+				color: black;
+			}
+			.imgpro{
+				width: 80%;
+			}
+			.cart{
+				margin-left: 10%;
+				width: 10%;
+				height: 10%;
+			}
+			.price{
+				font-size: 24px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+					<div class="twoRankedBox">
+							<ul class="BoxLeft">
+
+							</ul>
+
+							<ul class="BoxRight">
+							</ul>
+					</div>
+		</div>
+			<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					newshop: {
+						id: "",
+						name: "",
+						price: "",
+						pic: "",
+						remark: "false"
+					},
+					shops: []
+				},
+				methods: {
+					getdataa: function() {
+						axios.get('http://localhost:8080/jsTest/goods/').then(function(res) {
+							app.shops = res.data;
+							for(var i = 0; i <app.shops.length; i++) {
+								var chtml = '<li><p class="product_picture"><img class="imgpro" src="' + app.shops[i].pic + '"></p>' +
+									'<p class="name"><a>' + app.shops[i].name + '</a></p>' +
+									'<p class="product_ie"><a class="price">￥' + app.shops[i].price + '</a><img class="cart" src="img/cart.png"/></p></li>'
+				
+								if($('.BoxLeft').height() < $('.BoxRight').height()) {
+									$('.BoxLeft').append(chtml);
+								} else {
+									$('.BoxRight').append(chtml);
+								}
+							}
+						})
+					}
+				}
+			});
+			app.getdataa();
+		</script>
+	</body>
+</html>
